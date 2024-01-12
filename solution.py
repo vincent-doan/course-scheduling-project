@@ -7,8 +7,13 @@ class Solution:
             x = slot[1] + idx
             return ((slot[0], x, slot[2]))
     
-    def __init__(self, path_to_all_courses:str="data/all_courses.csv", output_path:str="output/output.csv"):
-        self.input_reader = InputReader(path_to_all_courses=path_to_all_courses)
+    def __init__(self,
+                 path_to_all_courses:str="data/all_courses.csv",
+                 path_to_all_classrooms:str="data/all_classrooms.csv",
+                 path_to_all_professors:str="data/all_professors.csv",
+                 output_path:str="output/output.csv"):
+        
+        self.input_reader = InputReader(path_to_all_courses=path_to_all_courses, path_to_all_classrooms=path_to_all_classrooms, path_to_all_professors=path_to_all_professors)
         self.output_path = output_path
         self.N = self.input_reader.get_num_courses()
         self.M = self.input_reader.get_num_classrooms()
