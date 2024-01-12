@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import tempfile
 import os
+import csv
+import time
 from solution_by_backtracking import *
 from solution_by_value_ordering import *
 
@@ -18,6 +20,8 @@ if 'generate_clicked' not in st.session_state:
     st.session_state['generate_clicked'] = False
 if 'solution_obtained' not in st.session_state:
     st.session_state['solution_obtained'] = False
+if 'time_taken' not in st.session_state:
+    st.session_state['time_taken'] = None
 
 def reset_all_states():
     st.session_state['courses_temp_path'] = None
@@ -60,6 +64,12 @@ if uploaded_file is not None:
 
 # -------------------- Algorithm Selection -------------------- #
 if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_path'] and st.session_state['professors_temp_path']:
+    if not os.path.exists("output/output.csv"):
+        with open("output/output.csv", 'w', newline='') as fp:
+            csv_writer = csv.writer(fp, delimiter=',')
+            csv_writer.writerow(['Faculty', 'Class ID', 'Course ID', 'Course Name', 'Credits', 'Num. Students',
+                                 'Num. Periods','Professor', 'Session', 'Start', 'End', 'Classroom', 'Capacity'])
+    
     algorithm = st.selectbox("Select an algorithm", ["Backtracking", "Value Ordering"], on_change=lambda: reset_all_states())
     if algorithm == "Backtracking":
         st.session_state['solution_algorithm'] = SolutionByBacktracking(path_to_all_courses=st.session_state['courses_temp_path'],
@@ -75,12 +85,15 @@ if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_p
 # -------------------- Get solution -------------------- #
 if st.session_state['solution_algorithm'] and st.session_state['solution_obtained'] == False and st.button("Generate"):
     with st.spinner('Please wait...'):
+        start = time.time()
         st.session_state['solution_algorithm'].get_solution()
+        st.session_state['time_taken'] = time.time() - start
     st.session_state['solution_obtained'] = True
 
 # -------------------- Generate Timetable -------------------- #
 if st.session_state['solution_obtained']:
     st.markdown("<h3 style='text-align: left'>Output</h3>", unsafe_allow_html=True)
+    st.text(f"Time taken: {st.session_state['time_taken']:.2f} seconds")
 
     # ---------- Get output.csv & modify ---------- #
     df = pd.read_csv("output/output.csv")
