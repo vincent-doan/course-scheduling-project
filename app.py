@@ -65,6 +65,7 @@ if uploaded_file is not None:
 # -------------------- Algorithm Selection -------------------- #
 if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_path'] and st.session_state['professors_temp_path']:
     if not os.path.exists("output/output.csv"):
+        os.makedirs('output', exist_ok=True)
         with open("output/output.csv", 'w', newline='') as fp:
             csv_writer = csv.writer(fp, delimiter=',')
             csv_writer.writerow(['Faculty', 'Class ID', 'Course ID', 'Course Name', 'Credits', 'Num. Students',
