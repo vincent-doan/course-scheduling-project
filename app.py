@@ -6,6 +6,10 @@ import csv
 import time
 from solution_by_backtracking import *
 from solution_by_value_ordering import *
+from solution_by_forward_checking import *
+
+import sys
+sys.setrecursionlimit(3000)
 
 # -------------------- Initialize session state -------------------- #
 if 'courses_temp_path' not in st.session_state:
@@ -64,6 +68,7 @@ if uploaded_file is not None:
 
 # -------------------- Algorithm Selection -------------------- #
 if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_path'] and st.session_state['professors_temp_path']:
+    st.markdown("<h3 style='text-align: left'>Algorithm</h3>", unsafe_allow_html=True)
     if not os.path.exists("output/output.csv"):
         os.makedirs('output', exist_ok=True)
         with open("output/output.csv", 'w', newline='') as fp:
@@ -71,7 +76,7 @@ if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_p
             csv_writer.writerow(['Faculty', 'Class ID', 'Course ID', 'Course Name', 'Credits', 'Num. Students',
                                  'Num. Periods','Professor', 'Session', 'Start', 'End', 'Classroom', 'Capacity'])
     
-    algorithm = st.selectbox("Select an algorithm", ["Backtracking", "Value Ordering"], on_change=lambda: reset_all_states())
+    algorithm = st.selectbox("Select an algorithm", ["Backtracking", "Value Ordering", "Forward Checking"], on_change=lambda: reset_all_states())
     if algorithm == "Backtracking":
         st.session_state['solution_algorithm'] = SolutionByBacktracking(path_to_all_courses=st.session_state['courses_temp_path'],
                                                                         path_to_all_classrooms=st.session_state['classrooms_temp_path'],
@@ -79,6 +84,11 @@ if st.session_state['courses_temp_path'] and st.session_state['classrooms_temp_p
                                                                         output_path="output/output.csv")
     elif algorithm == "Value Ordering":
         st.session_state['solution_algorithm'] = SolutionByValueOrdering(path_to_all_courses=st.session_state['courses_temp_path'],
+                                                                        path_to_all_classrooms=st.session_state['classrooms_temp_path'],
+                                                                        path_to_all_professors=st.session_state['professors_temp_path'],
+                                                                        output_path="output/output.csv")
+    elif algorithm == "Forward Checking":
+        st.session_state['solution_algorithm'] = SolutionByForwardChecking(path_to_all_courses=st.session_state['courses_temp_path'],
                                                                         path_to_all_classrooms=st.session_state['classrooms_temp_path'],
                                                                         path_to_all_professors=st.session_state['professors_temp_path'],
                                                                         output_path="output/output.csv")
