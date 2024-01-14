@@ -10,11 +10,11 @@ class SolutionByBacktracking(Solution):
                 if self.solution_obtained == True:
                     return
                 
+                if self.not_enough_capacity(course, slot):
+                    continue
                 if self.not_enough_periods_left(course, slot):
                     continue
                 if self.slot_is_taken(course, slot):
-                    continue
-                if self.not_enough_capacity(course, slot):
                     continue
                 if self.has_prof_duplicate(course, slot):
                     continue

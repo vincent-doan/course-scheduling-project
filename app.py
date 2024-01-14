@@ -104,7 +104,7 @@ if st.session_state['solution_algorithm'] and st.session_state['solution_obtaine
 # -------------------- Generate Timetable -------------------- #
 if st.session_state['solution_obtained']:
     st.markdown("<h3 style='text-align: left'>Output</h3>", unsafe_allow_html=True)
-    st.text(f"Time taken: {st.session_state['time_taken']:.2f} seconds")
+    # st.text(f"Time taken: {st.session_state['time_taken']:.2f} seconds")
 
     # ---------- Get output.csv & modify ---------- #
     df = pd.read_csv("output/output.csv")
