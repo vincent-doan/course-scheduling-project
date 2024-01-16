@@ -1,4 +1,4 @@
-from solution import Solution
+from .solution import Solution
 
 class SolutionByForwardChecking(Solution):
     def get_solution(self) -> None:

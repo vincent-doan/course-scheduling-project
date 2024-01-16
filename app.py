@@ -4,9 +4,9 @@ import tempfile
 import os
 import csv
 import time
-from solution_by_backtracking import *
-from solution_by_value_ordering import *
-from solution_by_forward_checking import *
+from algorithm.solution_by_backtracking import *
+from algorithm.solution_by_value_ordering import *
+from algorithm.solution_by_forward_checking import *
 
 import sys
 sys.setrecursionlimit(3000)

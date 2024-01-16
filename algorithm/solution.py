@@ -1,4 +1,4 @@
-from datareader import *
+from data.datareader import *
 import csv
 
 class Solution:
